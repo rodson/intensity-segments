@@ -33,21 +33,35 @@ class IntensitySegments {
   }
 
   set(from, to, amount) {
+    let isToSegmentLast = true;
+    let valueOfToSegment = 0;
     Object.keys(this.segmentMap).map((key) => {
       const segment = parseInt(key, 10);
 
-      // delete segments between from segment and to segment
-      if (segment > from && segment < to) {
-        delete this.segmentMap[segment];
+      if (segment <= to) {
+        // get to segment value
+        valueOfToSegment = this.segmentMap[segment];
+        // delete segments between from segment and to segment
+        if (segment > from) {
+          delete this.segmentMap[segment];
+        }
+      }
+
+      // whether to segment is the last one
+      if (isToSegmentLast && segment > to) {
+        isToSegmentLast = false;
       }
     });
 
     // set from segment
     this.segmentMap[from] = amount;
 
-    // set to segment
-    if (!this.segmentMap[to]) {
+    if (isToSegmentLast) {
+      // to segment is the last one: set zero
       this.segmentMap[to] = 0;
+    } else {
+      // to segment is not the last one: set value
+      this.segmentMap[to] = valueOfToSegment;
     }
 
     // merge duplicated segments
