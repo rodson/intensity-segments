@@ -51,6 +51,11 @@ describe('test another example sequence', () => {
     segments.add(10, 40, -1);
     expect(segments.toString()).toBe('[[10,-1],[20,0],[30,-1],[40,0]]');
   });
+
+  it('segments.add(12, 15, 2)', () => {
+    segments.add(12, 15, 2);
+    expect(segments.toString()).toBe('[[10,-1],[12,1],[15,-1],[20,0],[30,-1],[40,0]]');
+  });
 });
 
 describe('test example sequence of segments.set version', () => {
